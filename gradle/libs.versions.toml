@@ -1,6 +1,6 @@
 [versions]
-haptic = "0.2.5-beta01"
-kotlin = "2.1.21-RC"
+haptic = "0.2.5"
+kotlin = "2.1.20"
 agp = "8.9.1"
 bcv = "0.17.0"
 dokka = "2.0.0"
