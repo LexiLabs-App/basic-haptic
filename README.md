@@ -16,7 +16,7 @@ A Kotlin Multiplatform library to rapidly get Google AdMob running on Android an
 ![badge-javascript](https://img.shields.io/badge/javascript-full_support-65c663.svg?style=flat)
 
 ### How it works
-
+Basic-Haptic uses each platform's native vibration libraries and patterns. For simplicity, these complex libraries have been whittled down into just two basic vibration modes: `CLICK` and `TICK`. Each platform-specific implementation has a library of additional default vibrations.
 
 ## Installation
 
@@ -40,4 +40,29 @@ sourceSets {
 ```
 
 ## Usage
+You'll need to pass a common value of  `context`, which is mostly so the Android side of things will work.
+The Android implementation requires `Context`, while every other platform can receive `0` or `""`.
+For an example of this technique, check out this [medium article](https://blog.hakz.app/contain-your-apps-memory-please-0c62819f8d7f).
 
+```kotlin
+/** inside your commonMain */
+
+// Create a single Haptic instance to run all your vibrations
+val hapticManager = Haptic(context)
+
+// Vibrate the phone immediately using a click
+hapticManager.vibrate(Haptic.DEFAULTS.CLICK)
+```
+
+## Advanced
+If you're creating platform-specific implementations, you'll have access to a lot more `Haptic.DEFAULTS` values.
+The best example of this is the `watchOS` implementation:
+```kotlin
+/** inside your watchosMain */
+
+// Create a watchOS haptic instance
+val hapticManager = Haptic("")
+
+// Vibrate the phone using whichever unique watchOS vibration you like
+hapticManager.vibrate(Haptic.DEFAULTS.UNDERWATER_DEPTH_CRITICAL_PROMPT)
+```
