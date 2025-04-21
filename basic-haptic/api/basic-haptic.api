@@ -1,0 +1,20 @@
+public abstract interface annotation class app/lexilabs/basic/haptic/DependsOnAndroidVibratePermission : java/lang/annotation/Annotation {
+}
+
+public final class app/lexilabs/basic/haptic/Haptic {
+	public static final field Companion Lapp/lexilabs/basic/haptic/Haptic$Companion;
+	public fun <init> (Ljava/lang/Object;)V
+	public final fun vibrate (Lapp/lexilabs/basic/haptic/VibrationDefault;)V
+}
+
+public final class app/lexilabs/basic/haptic/Haptic$Companion {
+	public final fun getBUZZ ()Lapp/lexilabs/basic/haptic/VibrationDefault;
+	public final fun getCLICK ()Lapp/lexilabs/basic/haptic/VibrationDefault;
+	public final fun getDOUBLE_CLICK ()Lapp/lexilabs/basic/haptic/VibrationDefault;
+	public final fun getHEAVY_CLICK ()Lapp/lexilabs/basic/haptic/VibrationDefault;
+	public final fun getTICK ()Lapp/lexilabs/basic/haptic/VibrationDefault;
+}
+
+public abstract interface class app/lexilabs/basic/haptic/VibrationDefault {
+}
+

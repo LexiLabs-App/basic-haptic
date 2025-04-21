@@ -1,0 +1,23 @@
+[versions]
+haptic = "0.2.5-beta01"
+kotlin = "2.1.21-RC"
+agp = "8.9.1"
+bcv = "0.17.0"
+dokka = "2.0.0"
+kover = "0.9.1"
+annotations = "26.0.2"
+annotations-android = "1.9.1"
+browser = "0.3"
+
+[libraries]
+dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
+annotations = { module = "org.jetbrains:annotations", version.ref = "annotations"}
+annotations-android = { module = "androidx.annotation:annotation", version.ref = "annotations-android"}
+browser = { group = "org.jetbrains.kotlinx", name = "kotlinx-browser", version.ref = "browser"}
+
+[plugins]
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlinx-binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "bcv"}
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
