@@ -2,7 +2,7 @@
 <img src="images/logo-icon.svg" alt="basic" height="240" style="float:right;"/> 
 
 ![GitHub License](https://img.shields.io/github/license/lexilabs-app/basic-haptic)
-![GitHub Release Date](https://img.shields.io/github/release-date/lexilabs-app/basic-haptic)
+![GitHub Release Date](https://img.shields.io/github/release-date/Lexilabs-App/basic-haptic)
 [![Latest Release](https://img.shields.io/maven-central/v/app.lexilabs.basic/basic-haptic?color=blue&label=latest)](https://central.sonatype.com/artifact/app.lexilabs.basic/basic-haptic)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.1.20-7f52ff.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
 
