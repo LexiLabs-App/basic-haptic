@@ -1,5 +1,5 @@
 # Basic-Haptic
-<img src="images/logo-icon.svg" alt="basic" height="240" style="float:right;"/> 
+<img src="images/logo-icon.svg" alt="basic" height="240" align="right"/> 
 
 ![GitHub License](https://img.shields.io/github/license/lexilabs-app/basic-haptic)
 ![GitHub Release Date](https://img.shields.io/github/release-date/Lexilabs-App/basic-haptic)
