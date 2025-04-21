@@ -2,6 +2,7 @@ package app.lexilabs.basic.haptic
 
 import android.Manifest
 import android.content.Context
+import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.annotation.RequiresPermission
@@ -18,6 +19,15 @@ public actual class Haptic actual constructor(context: Any) {
     private val context: Context = context as Context
 
     /**
+     * Used to wrap the [Vibration] interface due to typealias constraints
+     *
+     * ___Only required when using Build.VERSION.SDK_INT 28 or lower___
+     *
+     * @param value The length of the [Vibration] in milliseconds
+     */
+    public data class VibrationWrapper(val value: Long): Vibration
+
+    /**
      * A set of default [Vibration] values
      * @property TICK a short vibration and is shorter than [CLICK]
      * @property CLICK a nominal vibration and is longer than [TICK]
@@ -30,23 +40,43 @@ public actual class Haptic actual constructor(context: Any) {
 
         /** a short vibration and is shorter than [CLICK] */
         public actual val TICK: Vibration =
-            VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK) as Vibration
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK) as Vibration
+            } else {
+                VibrationWrapper(50)
+            }
 
         /** a nominal vibration and is longer than [TICK] */
         public actual val CLICK: Vibration =
-            VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK) as Vibration
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK) as Vibration
+            } else {
+                VibrationWrapper(100)
+            }
 
         /** a moderate vibration and is longer than [CLICK] */
         public val HEAVY_CLICK: Vibration =
-            VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK) as Vibration
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK) as Vibration
+            } else {
+                VibrationWrapper(150)
+            }
 
         /** two rapid [CLICK] vibrations */
         public val DOUBLE_CLICK: Vibration =
-            VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK) as Vibration
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK) as Vibration
+            } else {
+                VibrationWrapper(200)
+            }
 
         /** a 250 millisecond vibration */
         public val BUZZ: Vibration =
-            VibrationEffect.createOneShot(250, 1) as VibrationEffect as Vibration
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                VibrationEffect.createOneShot(250, 1) as VibrationEffect as Vibration
+            } else {
+                VibrationWrapper(500)
+            }
 
     }
 
@@ -56,8 +86,15 @@ public actual class Haptic actual constructor(context: Any) {
      */
     @RequiresPermission(Manifest.permission.VIBRATE)
     public actual fun vibrate(pattern: Vibration) {
-        (context.getSystemService("vibrator") as Vibrator).vibrate(
-            pattern as VibrationEffect
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            (context.getSystemService("vibrator") as Vibrator).vibrate(
+                pattern as VibrationEffect
+            )
+        } else {
+            @Suppress("DEPRECATION")
+            (context.getSystemService("vibrator") as Vibrator).vibrate(
+                (pattern as VibrationWrapper).value
+            )
+        }
     }
 }
