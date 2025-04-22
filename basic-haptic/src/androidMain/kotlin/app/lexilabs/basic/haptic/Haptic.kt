@@ -22,11 +22,18 @@ public actual class Haptic actual constructor(context: Any) {
     /**
      * Used to wrap the [Vibration] interface due to typealias constraints
      *
-     * ___Only required when using Build.VERSION.SDK_INT 28 or lower___
+     * ___Only required when using Build.VERSION.SDK_INT 26 or lower___
      *
      * @param value The length of the [Vibration] in milliseconds
      */
-    public data class VibrationWrapper(val value: Long): Vibration
+    public data class VibrationLong(val value: Long): Vibration
+
+    /**
+     * Used to wrap the [Vibration] interface due to typealias constraints
+     *
+     * @param value a [VibrationEffect] object
+     */
+    public data class VibrationAndroid(val value: VibrationEffect): Vibration
 
     /**
      * A set of default [Vibration] values
@@ -43,57 +50,57 @@ public actual class Haptic actual constructor(context: Any) {
         public actual val TICK: Vibration =
             when(Build.VERSION.SDK_INT) {
                 in Build.VERSION_CODES.Q..Int.MAX_VALUE -> {
-                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK) as Vibration
+                    VibrationAndroid(VibrationEffect.createPredefined(VibrationEffect.EFFECT_TICK))
                 }
                 in Build.VERSION_CODES.O..Build.VERSION_CODES.P -> {
-                    VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE) as Vibration
+                    VibrationAndroid(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
                 }
-                else -> { VibrationWrapper(50)}
+                else -> { VibrationLong(50)}
             }
 
         /** a nominal vibration and is longer than [TICK] */
         public actual val CLICK: Vibration =
             when(Build.VERSION.SDK_INT) {
                 in Build.VERSION_CODES.Q..Int.MAX_VALUE -> {
-                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK) as Vibration
+                    VibrationAndroid(VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK))
                 }
                 in Build.VERSION_CODES.O..Build.VERSION_CODES.P -> {
-                    VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE) as Vibration
+                    VibrationAndroid(VibrationEffect.createOneShot(100, VibrationEffect.DEFAULT_AMPLITUDE))
                 }
-                else -> { VibrationWrapper(100)}
+                else -> { VibrationLong(100)}
             }
 
         /** a moderate vibration and is longer than [CLICK] */
         public val HEAVY_CLICK: Vibration =
             when(Build.VERSION.SDK_INT) {
                 in Build.VERSION_CODES.Q..Int.MAX_VALUE -> {
-                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK) as Vibration
+                    VibrationAndroid(VibrationEffect.createPredefined(VibrationEffect.EFFECT_HEAVY_CLICK))
                 }
                 in Build.VERSION_CODES.O..Build.VERSION_CODES.P -> {
-                    VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE) as Vibration
+                    VibrationAndroid(VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE))
                 }
-                else -> { VibrationWrapper(150)}
+                else -> { VibrationLong(150)}
             }
 
         /** two rapid [CLICK] vibrations */
         public val DOUBLE_CLICK: Vibration =
             when(Build.VERSION.SDK_INT) {
                 in Build.VERSION_CODES.Q..Int.MAX_VALUE -> {
-                    VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK) as Vibration
+                    VibrationAndroid(VibrationEffect.createPredefined(VibrationEffect.EFFECT_DOUBLE_CLICK))
                 }
                 in Build.VERSION_CODES.O..Build.VERSION_CODES.P -> {
-                    VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE) as Vibration
+                    VibrationAndroid(VibrationEffect.createOneShot(200, VibrationEffect.DEFAULT_AMPLITUDE))
                 }
-                else -> { VibrationWrapper(200)}
+                else -> { VibrationLong(200)}
             }
 
         /** a 250 millisecond vibration */
         public val BUZZ: Vibration =
             when(Build.VERSION.SDK_INT) {
                 in Build.VERSION_CODES.O..Int.MAX_VALUE -> {
-                    VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE) as Vibration
+                    VibrationAndroid(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
                 }
-                else -> { VibrationWrapper(500)}
+                else -> { VibrationLong(500)}
             }
     }
 
@@ -104,8 +111,8 @@ public actual class Haptic actual constructor(context: Any) {
     @RequiresPermission(Manifest.permission.VIBRATE)
     public actual fun vibrate(pattern: Vibration) {
         when(Build.VERSION.SDK_INT) {
-            in Build.VERSION_CODES.O..Int.MAX_VALUE -> { vibrateUsingEffect(pattern) }
-            else -> { vibrateUsingWrapper(pattern) }
+            in Build.VERSION_CODES.O..Int.MAX_VALUE -> { vibrateUsingEffect(pattern as VibrationAndroid) }
+            else -> { vibrateUsingWrapper(pattern as VibrationLong) }
         }
     }
 
@@ -115,21 +122,21 @@ public actual class Haptic actual constructor(context: Any) {
      */
     @RequiresPermission(Manifest.permission.VIBRATE)
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun vibrateUsingEffect(pattern: Vibration) {
+    private fun vibrateUsingEffect(pattern: VibrationAndroid) {
         (context.getSystemService("vibrator") as Vibrator).vibrate(
-            pattern as VibrationEffect
+            pattern.value
         )
     }
 
     /**
-     * Executes a vibration immediately based on a [VibrationWrapper] pattern masked as a [Vibration]
+     * Executes a vibration immediately based on a [VibrationLong] pattern masked as a [Vibration]
      * @param pattern a platform-specific [Vibration] pattern for the vibration
      */
     @RequiresPermission(Manifest.permission.VIBRATE)
     @Suppress("DEPRECATION")
     private fun vibrateUsingWrapper(pattern: Vibration) {
         (context.getSystemService("vibrator") as Vibrator).vibrate(
-            (pattern as VibrationWrapper).value
+            (pattern as VibrationLong).value
         )
     }
 }
