@@ -15,11 +15,22 @@ public final class app/lexilabs/basic/haptic/Haptic$DEFAULTS {
 	public final fun getTICK ()Lapp/lexilabs/basic/haptic/Vibration;
 }
 
-public final class app/lexilabs/basic/haptic/Haptic$VibrationWrapper : app/lexilabs/basic/haptic/Vibration {
+public final class app/lexilabs/basic/haptic/Haptic$VibrationAndroid : app/lexilabs/basic/haptic/Vibration {
+	public fun <init> (Landroid/os/VibrationEffect;)V
+	public final fun component1 ()Landroid/os/VibrationEffect;
+	public final fun copy (Landroid/os/VibrationEffect;)Lapp/lexilabs/basic/haptic/Haptic$VibrationAndroid;
+	public static synthetic fun copy$default (Lapp/lexilabs/basic/haptic/Haptic$VibrationAndroid;Landroid/os/VibrationEffect;ILjava/lang/Object;)Lapp/lexilabs/basic/haptic/Haptic$VibrationAndroid;
+	public fun equals (Ljava/lang/Object;)Z
+	public final fun getValue ()Landroid/os/VibrationEffect;
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
+}
+
+public final class app/lexilabs/basic/haptic/Haptic$VibrationLong : app/lexilabs/basic/haptic/Vibration {
 	public fun <init> (J)V
 	public final fun component1 ()J
-	public final fun copy (J)Lapp/lexilabs/basic/haptic/Haptic$VibrationWrapper;
-	public static synthetic fun copy$default (Lapp/lexilabs/basic/haptic/Haptic$VibrationWrapper;JILjava/lang/Object;)Lapp/lexilabs/basic/haptic/Haptic$VibrationWrapper;
+	public final fun copy (J)Lapp/lexilabs/basic/haptic/Haptic$VibrationLong;
+	public static synthetic fun copy$default (Lapp/lexilabs/basic/haptic/Haptic$VibrationLong;JILjava/lang/Object;)Lapp/lexilabs/basic/haptic/Haptic$VibrationLong;
 	public fun equals (Ljava/lang/Object;)Z
 	public final fun getValue ()J
 	public fun hashCode ()I
