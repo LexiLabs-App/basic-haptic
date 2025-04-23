@@ -14,6 +14,13 @@ import platform.WatchKit.WKInterfaceDevice
 public actual class Haptic actual constructor(context: Any) {
 
     /**
+     * Used to wrap the [Vibration] interface due to typealias constraints
+     *
+     * @param value a [WKHapticType] object
+     */
+    public data class VibrationWatchos(val value: WKHapticType): Vibration
+
+    /**
      * Contains the [Vibration] values
      * @property TICK a short vibration and is shorter than [CLICK]
      * @property CLICK a nominal vibration and is longer than [TICK]
@@ -35,59 +42,59 @@ public actual class Haptic actual constructor(context: Any) {
 
         /** Equivalent to [WKHapticType.WKHapticTypeSuccess] */
         public val SUCCESS: Vibration =
-            WKHapticType.WKHapticTypeSuccess as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeSuccess)
 
         /** Equivalent to [WKHapticType.WKHapticTypeFailure] */
         public val FAILURE: Vibration =
-            WKHapticType.WKHapticTypeFailure as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeFailure)
 
         /** Equivalent to [WKHapticType.WKHapticTypeStart] */
         public val START: Vibration =
-            WKHapticType.WKHapticTypeStart as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeStart)
 
         /** Equivalent to [WKHapticType.WKHapticTypeStop] */
         public val STOP: Vibration =
-            WKHapticType.WKHapticTypeStop as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeStop)
 
         /** Equivalent to [WKHapticType.WKHapticTypeRetry] */
         public val RETRY: Vibration =
-            WKHapticType.WKHapticTypeRetry as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeRetry)
 
         /** Equivalent to [WKHapticType.WKHapticTypeDirectionDown] */
         public val DIRECTION_DOWN: Vibration =
-            WKHapticType.WKHapticTypeDirectionDown as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeDirectionDown)
 
         /** Equivalent to [WKHapticType.WKHapticTypeDirectionUp] */
         public val DIRECTION_UP: Vibration =
-            WKHapticType.WKHapticTypeDirectionUp as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeDirectionUp)
 
         /** Equivalent to [WKHapticType.WKHapticTypeNavigationGenericManeuver] */
         public val NAVIGATION_GENERIC_MANEUVER: Vibration =
-            WKHapticType.WKHapticTypeNavigationGenericManeuver as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeNavigationGenericManeuver)
 
         /** Equivalent to [WKHapticType.WKHapticTypeNavigationLeftTurn] */
         public val NAVIGATION_LEFT_TURN: Vibration =
-            WKHapticType.WKHapticTypeNavigationLeftTurn as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeNavigationLeftTurn)
 
         /** Equivalent to [WKHapticType.WKHapticTypeNavigationRightTurn] */
         public val NAVIGATION_RIGHT_TURN: Vibration =
-            WKHapticType.WKHapticTypeNavigationRightTurn as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeNavigationRightTurn)
 
         /** Equivalent to [WKHapticType.WKHapticTypeNotification] */
         public val NOTIFICATION: Vibration =
-            WKHapticType.WKHapticTypeNotification as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeNotification)
 
         /** Equivalent to [WKHapticType.WKHapticTypeUnderwaterDepthCriticalPrompt] */
         public val UNDERWATER_DEPTH_CRITICAL_PROMPT: Vibration =
-            WKHapticType.WKHapticTypeUnderwaterDepthCriticalPrompt as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeUnderwaterDepthCriticalPrompt)
 
         /** Equivalent to [WKHapticType.WKHapticTypeUnderwaterDepthPrompt] */
         public val UNDERWATER_DEPTH_PROMPT: Vibration =
-            WKHapticType.WKHapticTypeUnderwaterDepthPrompt as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeUnderwaterDepthPrompt)
 
         /** Equivalent to [WKHapticType.WKHapticTypeClick] */
         public actual val CLICK: Vibration =
-            WKHapticType.WKHapticTypeClick as Vibration
+            VibrationWatchos(WKHapticType.WKHapticTypeClick)
 
         /** a short vibration and is shorter than [CLICK] **/
         public actual val TICK: Vibration = NOTIFICATION
@@ -99,6 +106,8 @@ public actual class Haptic actual constructor(context: Any) {
      */
     public actual fun vibrate(pattern: Vibration) {
         val device = WKInterfaceDevice.currentDevice()
-        device.playHaptic(pattern as WKHapticType)
+        device.playHaptic(
+            type = (pattern as VibrationWatchos).value
+        )
     }
 }
