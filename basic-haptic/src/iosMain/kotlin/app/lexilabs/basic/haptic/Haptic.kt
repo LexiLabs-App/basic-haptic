@@ -13,6 +13,13 @@ import platform.UIKit.UIImpactFeedbackStyle
 public actual class Haptic actual constructor(context: Any) {
 
     /**
+     * Used to wrap the [Vibration] interface due to typealias constraints
+     *
+     * @param value a [UIImpactFeedbackStyle] object
+     */
+    public data class VibrationIos(val value: UIImpactFeedbackStyle): Vibration
+
+    /**
      * Contains default [Vibration] values
      * @property TICK a short vibration and is shorter than [CLICK]. The same as [LIGHT]
      * @property CLICK a nominal vibration and is longer than [TICK]. The same as [SOFT]
@@ -25,19 +32,19 @@ public actual class Haptic actual constructor(context: Any) {
     public actual object DEFAULTS {
 
         /** equivalent to [UIImpactFeedbackStyle.UIImpactFeedbackStyleLight] vibration */
-        public val LIGHT: Vibration = UIImpactFeedbackStyle.UIImpactFeedbackStyleLight as Vibration
+        public val LIGHT: Vibration = VibrationIos(UIImpactFeedbackStyle.UIImpactFeedbackStyleLight)
 
         /** equivalent to [UIImpactFeedbackStyle.UIImpactFeedbackStyleSoft] vibration */
-        public val SOFT: Vibration = UIImpactFeedbackStyle.UIImpactFeedbackStyleSoft as Vibration
+        public val SOFT: Vibration = VibrationIos(UIImpactFeedbackStyle.UIImpactFeedbackStyleSoft)
 
         /** equivalent to [UIImpactFeedbackStyle.UIImpactFeedbackStyleHeavy] vibration*/
-        public val HEAVY: Vibration = UIImpactFeedbackStyle.UIImpactFeedbackStyleHeavy as Vibration
+        public val HEAVY: Vibration = VibrationIos(UIImpactFeedbackStyle.UIImpactFeedbackStyleHeavy)
 
         /** equivalent to [UIImpactFeedbackStyle.UIImpactFeedbackStyleMedium] vibration */
-        public val MEDIUM: Vibration = UIImpactFeedbackStyle.UIImpactFeedbackStyleMedium as Vibration
+        public val MEDIUM: Vibration = VibrationIos(UIImpactFeedbackStyle.UIImpactFeedbackStyleMedium)
 
         /** equivalent to [UIImpactFeedbackStyle.UIImpactFeedbackStyleRigid] vibration */
-        public val RIGID: Vibration = UIImpactFeedbackStyle.UIImpactFeedbackStyleRigid as Vibration
+        public val RIGID: Vibration = VibrationIos(UIImpactFeedbackStyle.UIImpactFeedbackStyleRigid)
 
         /** a short vibration and is shorter than [CLICK]. The same as [LIGHT] */
         public actual val TICK: Vibration = LIGHT
@@ -51,7 +58,7 @@ public actual class Haptic actual constructor(context: Any) {
      * @param pattern a platform-specific [Vibration] pattern for the vibration
      */
     public actual fun vibrate(pattern: Vibration) {
-        val generator = UIImpactFeedbackGenerator(pattern as UIImpactFeedbackStyle)
+        val generator = UIImpactFeedbackGenerator((pattern as VibrationIos).value)
         generator.impactOccurred()
     }
 }
