@@ -1,5 +1,5 @@
 [versions]
-haptic = "0.2.6-beta02"
+haptic = "0.2.6-SNAPSHOT"
 kotlin = "2.1.20"
 agp = "8.9.2"
 bcv = "0.17.0"
@@ -8,6 +8,7 @@ kover = "0.9.1"
 annotations = "26.0.2"
 annotations-android = "1.9.1"
 browser = "0.3"
+maven-publish = "0.32.0"
 
 [libraries]
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
@@ -21,3 +22,4 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlinx-binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "bcv"}
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish"}
