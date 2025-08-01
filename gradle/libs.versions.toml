@@ -7,7 +7,7 @@ dokka = "2.0.0"
 kover = "0.9.1"
 annotations = "26.0.2"
 annotations-android = "1.9.1"
-browser = "0.3"
+browser = "0.4"
 
 [libraries]
 dokka-base = { module = "org.jetbrains.dokka:dokka-base", version.ref = "dokka" }
